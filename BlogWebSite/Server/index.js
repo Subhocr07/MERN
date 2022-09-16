@@ -1,6 +1,7 @@
 const express=require('express');
 const mongoose=require('mongoose');
 const server = express();
+const cors = require("cors");
 
 //connection port
 const PORT=process.env.PORT||7070;
@@ -11,6 +12,7 @@ const MONGOURI="mongodb+srv://InstaCluster:Subho2022@instaclauster.xpboj.mongodb
 //bodyparser
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }))
+server.use(cors())
 
 //isBlog middleware to check blog is present or not present
 const isBlog =require("./middleware/isBlog");
@@ -20,6 +22,11 @@ server.use(isBlog.isBlog);
 const adminRoutes = require("./routes/adminRoutes")
 //admin routes
 server.use("/",adminRoutes)
+
+//for userRoute
+const userRoute = require("./routes/userRoutes");
+//user route
+server.use("/user",userRoute);
 
 //starting server
 server.listen(PORT,(err)=>{
